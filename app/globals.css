@@ -1,0 +1,329 @@
+:root {
+  --bg: #ffffff;
+  --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+  --card: #ffffff;
+  --card-hover: #f8f9fa;
+  --text: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --muted: #6b7280;
+  --accent: #e60012; /* ASUS red */
+  --accent-glow: #ff0a1f;
+  --accent-light: rgba(230, 0, 18, 0.1);
+  --rog-cyan: #dc2626; /* Changed to red variant */
+  --rog-purple: #b91c1c; /* Changed to red variant */
+  --border: rgba(230, 0, 18, 0.15);
+  --glow: 0 0 20px rgba(230, 0, 18, 0.3);
+  --shadow: 0 8px 32px rgba(230, 0, 18, 0.15);
+  --light-red: #fef2f2;
+  --mobile-safe: 16px; /* Mobile-first spacing */
+}
+
+* { box-sizing: border-box }
+html, body { height: 100% }
+body {
+  margin: 0;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none }
+ul { list-style: none; padding: 0; margin: 0 }
+
+.container { max-width: 1100px; margin: 0 auto; padding: var(--mobile-safe); }
+
+/* Mobile-first responsive design */
+@media (min-width: 768px) {
+  .container { padding: 24px; }
+}
+
+@media (min-width: 1024px) {
+  .container { padding: 32px; }
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(230, 0, 18, 0.1);
+}
+.nav-inner { display: flex; align-items: center; gap: 24px; padding: 16px 24px }
+.brand { 
+  font-weight: 900; 
+  letter-spacing: .8px; 
+  font-size: 1.5rem;
+  color: var(--accent);
+  text-shadow: none;
+}
+.spacer { flex: 1 }
+.nav a { 
+  opacity: .9;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.nav a:hover { 
+  color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(230, 0, 18, 0.2);
+}
+.nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+.nav a:hover::before {
+  left: 100%;
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 20px; 
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .container { padding: var(--mobile-safe); }
+  .hero { padding: 60px 0; }
+  .hero h1 { font-size: 2.5rem; }
+  .grid { 
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .nav-inner { gap: 16px; padding: 12px var(--mobile-safe); }
+  .brand { font-size: 1.2rem; }
+  
+  /* Make buttons more touch-friendly */
+  button, .cta, a[role="button"] {
+    min-height: 44px;
+    padding: 12px 24px;
+    touch-action: manipulation;
+  }
+  
+  /* Improve card spacing on mobile */
+  .card {
+    margin-bottom: 16px;
+  }
+  
+  /* Better table responsiveness */
+  table {
+    font-size: 0.85rem;
+  }
+  
+  th, td {
+    padding: 8px 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2rem; }
+  .stats-number { font-size: 1.5rem; }
+  
+  /* Stack Google Maps buttons vertically on very small screens */
+  .maps-buttons {
+    grid-template-columns: 1fr !important;
+  }
+}
+.card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--accent), var(--rog-cyan), var(--rog-purple));
+  border-radius: 16px;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.card:hover {
+  background: var(--card-hover);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(230, 0, 18, 0.2), var(--glow);
+}
+.card:hover::before {
+  opacity: 1;
+}
+.card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s ease }
+.card:hover img { transform: scale(1.1) }
+.card-body { padding: 20px 24px }
+.price { 
+  color: var(--accent); 
+  font-weight: 800; 
+  font-size: 1.25rem;
+  text-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+.muted { color: var(--muted) }
+
+.hero { 
+  padding: 100px 0; 
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(230, 0, 18, 0.1) 0%, transparent 70%);
+  animation: heroGlow 6s ease-in-out infinite alternate;
+}
+@keyframes heroGlow {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+  100% { transform: rotate(5deg) scale(1.1); opacity: 0.1; }
+}
+.hero h1 { 
+  font-size: 3.5rem; 
+  font-weight: 900;
+  margin: 0 0 20px;
+  background: linear-gradient(135deg, var(--text), var(--rog-cyan), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+  line-height: 1.1;
+  position: relative;
+  z-index: 2;
+}
+.hero p { 
+  color: var(--text-secondary); 
+  margin: 0 0 30px; 
+  font-size: 1.2rem;
+  position: relative;
+  z-index: 2;
+}
+.cta { 
+  display: inline-block; 
+  padding: 16px 32px; 
+  background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+  color: #ffffff; 
+  border-radius: 50px; 
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cta:hover { 
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(230, 0, 18, 0.6), var(--glow);
+  filter: brightness(1.1);
+}
+
+.footer { 
+  border-top: 1px solid var(--border); 
+  padding: 40px 24px; 
+  color: var(--muted); 
+  text-align: center;
+  background: rgba(30, 30, 35, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+form { display: grid; gap: 16px; max-width: 520px }
+input, textarea { 
+  width: 100%; 
+  padding: 16px 20px; 
+  border-radius: 12px; 
+  border: 1px solid var(--border); 
+  background: var(--card); 
+  color: var(--text);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(230, 0, 18, 0.3);
+}
+button { 
+  padding: 16px 24px; 
+  border-radius: 12px; 
+  border: 0; 
+  background: linear-gradient(135deg, var(--accent), var(--accent-glow)); 
+  color: #ffffff; 
+  font-weight: 700; 
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(230, 0, 18, 0.4);
+  filter: brightness(1.1);
+}
+button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+/* Additional gaming-style elements */
+.glow-text {
+  text-shadow: 0 0 10px currentColor;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.tech-grid {
+  background-image: 
+    linear-gradient(rgba(230, 0, 18, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 18, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.stats-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.stats-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+
+
